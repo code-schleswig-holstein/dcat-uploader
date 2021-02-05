@@ -405,39 +405,16 @@ public class CkanAPI {
         return isResponseSuccess(response);
     }
 
-    public boolean renameDataset(String packageId, String newName) throws IOException {
+    public boolean changeTitle(String packageId, String title) throws IOException {
+        final JSONObject packageObject = readDataset(packageId);
 
-        if (!doesDatasetExist(packageId)) {
+        if (packageObject == null) {
             log.error("Es gibt kein Dataset mit dem Namen {}", packageId);
-        }
-
-        if (doesDatasetExist(newName)) {
-            log.error("Es gibt bereits ein Dataset mit dem neuen Namen {}", newName);
             return false;
         }
 
-        HttpGet requestPackageShow = new HttpGet(baseURL + "/api/3/action/package_show?id=" + packageId);
-
-        JSONObject response = restClient.executeHttpRequest(requestPackageShow);
-
-        JSONObject dataset = response.getJSONObject("result");
-        dataset.put("name", newName);
-
-        String json = dataset.toString();
-
-        HttpPost requestPackageUpdate = new HttpPost(baseURL + "/api/3/action/package_update?id=" + packageId);
-        requestPackageUpdate.addHeader("Authorization", apiKey.toString());
-        requestPackageUpdate.addHeader("Content-Type", "application/json");
-        requestPackageUpdate.setEntity(new StringEntity(json, StandardCharsets.UTF_8));
-
-        response = restClient.executeHttpRequest(requestPackageUpdate);
-
-        final boolean success = isResponseSuccess(response);
-
-        if (success) {
-            log.info("Erfolgreich das Dataset {} in {} umbenannt.", packageId, newName);
-        }
-
-        return success;
+        packageObject.put("title", title);
+        return updatePackage(packageObject);
     }
+
 }
