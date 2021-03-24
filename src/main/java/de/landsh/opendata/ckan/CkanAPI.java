@@ -328,7 +328,7 @@ public class CkanAPI {
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         builder.setCharset(StandardCharsets.UTF_8);
         builder.addPart("package_id", new StringBody(packageId, ContentType.MULTIPART_FORM_DATA));
-        builder.addPart("name", new StringBody(name, ContentType.MULTIPART_FORM_DATA));
+        builder.addPart("name", new StringBody(name, ContentType.create("multipart/form-data", StandardCharsets.UTF_8)));
         builder.addPart("format", new StringBody(format, ContentType.MULTIPART_FORM_DATA));
         builder.addPart("upload", new FileBody(file, ContentType.create(mimeType), name));
         builder.addPart("hash", new StringBody(checksum, ContentType.MULTIPART_FORM_DATA));
@@ -365,7 +365,9 @@ public class CkanAPI {
             resource.setName(resourceJSON.getString("name"));
             resource.setChecksum(StringUtils.trimToNull(resourceJSON.getString("hash")));
             resource.setFormat(resourceJSON.getString("format"));
-            resource.setMimeType(resourceJSON.getString("mimetype"));
+            if (resourceJSON.has("mimetype") && !resourceJSON.isNull("mimetype")) {
+                resource.setMimeType(resourceJSON.getString("mimetype"));
+            }
             resource.setId(resourceJSON.getString("id"));
 
             resource.setByteSize(NumberUtils.toLong(Objects.toString(resourceJSON.get("size"))));
