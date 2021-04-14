@@ -401,8 +401,8 @@ public class CkanAPI {
     }
 
     boolean doesDatasetExist(String packageId) throws IOException {
-        HttpGet requestPackageShow = new HttpGet(baseURL + "/api/3/action/package_show?id=" + packageId);
-        JSONObject response = restClient.executeHttpRequest(requestPackageShow);
+        final HttpGet requestPackageShow = new HttpGet(baseURL + "/api/3/action/package_show?id=" + packageId);
+        final JSONObject response = restClient.executeHttpRequest(requestPackageShow);
 
         return isResponseSuccess(response);
     }
@@ -417,6 +417,20 @@ public class CkanAPI {
 
         packageObject.put("title", title);
         return updatePackage(packageObject);
+    }
+
+    public boolean deleteResource(String resourceId) throws IOException {
+        final JSONObject json = new JSONObject();
+        json.put("id", resourceId);
+
+        final HttpPost httpPost = new HttpPost(baseURL + "/api/action/resource_delete");
+        httpPost.addHeader("Authorization", apiKey.toString());
+        httpPost.addHeader("Content-Type", "application/json");
+        httpPost.setEntity(new StringEntity(json.toString(), StandardCharsets.UTF_8));
+
+        final JSONObject responseJSON = restClient.executeHttpRequest(httpPost);
+
+        return responseJSON.getBoolean("success");
     }
 
 }
