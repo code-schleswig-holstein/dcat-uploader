@@ -2,6 +2,7 @@ package de.landsh.opendata.ckan;
 
 import de.landsh.opendata.DCATAPde;
 import de.landsh.opendata.Locn;
+import de.landsh.opendata.SPDX;
 import de.landsh.opendata.SchemaOrg;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -215,6 +216,11 @@ public class DcatUploader {
             }
             if (distribution.hasProperty(DCATAPde.licenseAttributionByText)) {
                 jsonResource.put("licenseAttributionByText", getString(distribution, DCATAPde.licenseAttributionByText));
+            }
+            if( distribution.hasProperty(SPDX.checksum)) {
+                final Resource checksum = distribution.getPropertyResourceValue(SPDX.checksum);
+                jsonResource.put("hash", getString(checksum, SPDX.checksumValue));
+                jsonResource.put("hash_algorithm", getString(checksum, SPDX.algorithm));
             }
 
             ckanAPI.createResource(jsonResource);

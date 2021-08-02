@@ -1,0 +1,48 @@
+<rdf:RDF
+    xmlns:dct="http://purl.org/dc/terms/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:schema="http://schema.org/"
+    xmlns:dcat="http://www.w3.org/ns/dcat#" xmlns:spdx="http://spdx.org/rdf/terms#"
+    xmlns:dcatde="http://dcat-ap.de/def/dcatde/">
+    <dcat:Dataset rdf:about="https://opendata.schleswig-holstein.de/dataset/demo">
+        <dcat:keyword>my dataset</dcat:keyword>
+        <dct:accrualPeriodicity rdf:resource="http://publications.europa.eu/resource/authority/frequency/DAILY"/>
+        <dcat:keyword>demo</dcat:keyword>
+        <dcatde:politicalGeocodingURI>
+            <dct:Location rdf:about="http://dcat-ap.de/def/politicalGeocoding/regionalKey/010550044044"/>
+        </dcatde:politicalGeocodingURI>
+        <dcat:distribution>
+            <dcat:Distribution rdf:about="https://opendata.schleswig-holstein.de/dataset/demo/resource">
+                <dcat:downloadURL rdf:resource="http://example.org/data.csv"/>
+                <dcat:accessURL rdf:resource="http://example.org/data.csv"/>
+                <dct:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/CSV"/>
+                <dcat:byteSize rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">500</dcat:byteSize>
+                <dct:title>data.csv</dct:title>
+                <dcatde:licenseAttributionByText>ZIT-SH</dcatde:licenseAttributionByText>
+                <dct:license rdf:resource="http://dcat-ap.de/def/licenses/cc-by/4.0"/>
+                <spdx:checksum>
+                    <spdx:Checksum>
+                        <spdx:checksumValue rdf:datatype="http://www.w3.org/2001/XMLSchema#hexBinary">17f9aec62e8398c358b3d3a2deaef2a5</spdx:checksumValue>
+                        <spdx:algorithm rdf:resource="http://dcat-ap.de/def/hashAlgorithms/md/5"/>
+                    </spdx:Checksum>
+                </spdx:checksum>
+            </dcat:Distribution>
+        </dcat:distribution>
+        <dct:temporal>
+            <dct:PeriodOfTime>
+                <schema:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-10-12</schema:endDate>
+                <schema:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-10-11</schema:startDate>
+            </dct:PeriodOfTime>
+        </dct:temporal>
+        <dct:license rdf:resource="http://dcat-ap.de/def/licenses/cc-by/4.0"/>
+        <dcatde:politicalGeocodingLevelURI rdf:resource="http://dcat-ap.de/def/politicalGeocoding/Level/municipality"/>
+        <dct:description>This is a description of my dataset.</dct:description>
+        <dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-10-13</dct:modified>
+        <dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-10-13</dct:issued>
+        <dct:spatial rdf:resource="http://dcat-ap.de/def/politicalGeocoding/regionalKey/010550044044"/>
+        <dcat:theme rdf:resource="http://publications.europa.eu/resource/authority/data-theme/TRAN"/>
+        <dct:title>My first dataset</dct:title>
+        <dcatde:licenseAttributionByText>ZIT-SH</dcatde:licenseAttributionByText>
+        <dct:publisher rdf:resource="https://opendata.schleswig-holstein.de/organization/2a6d6241-fdfd-4d9a-9106-8c658be43a27"/>
+    </dcat:Dataset>
+</rdf:RDF>
