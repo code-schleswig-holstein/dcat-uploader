@@ -433,4 +433,35 @@ public class CkanAPI {
         return responseJSON.getBoolean("success");
     }
 
+    public boolean makePackagePrivate(String packageId) throws IOException {
+        final String organization = getOrganization(packageId);
+        final JSONObject json = new JSONObject();
+        json.put("datasets", packageId);
+        json.put("org_id", organization);
+
+        final HttpPost httpPost = new HttpPost(baseURL + "/api/action/bulk_update_private");
+        httpPost.addHeader("Authorization", apiKey.toString());
+        httpPost.addHeader("Content-Type", "application/json");
+        httpPost.setEntity(new StringEntity(json.toString(), StandardCharsets.UTF_8));
+
+        final JSONObject responseJSON = restClient.executeHttpRequest(httpPost);
+
+        return responseJSON.getBoolean("success");
+    }
+
+    public boolean makePackagePublic(String packageId) throws IOException {
+        final String organization = getOrganization(packageId);
+        final JSONObject json = new JSONObject();
+        json.put("datasets", packageId);
+        json.put("org_id", organization);
+
+        final HttpPost httpPost = new HttpPost(baseURL + "/api/action/bulk_update_public");
+        httpPost.addHeader("Authorization", apiKey.toString());
+        httpPost.addHeader("Content-Type", "application/json");
+        httpPost.setEntity(new StringEntity(json.toString(), StandardCharsets.UTF_8));
+
+        final JSONObject responseJSON = restClient.executeHttpRequest(httpPost);
+
+        return responseJSON.getBoolean("success");
+    }
 }
