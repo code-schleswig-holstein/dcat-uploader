@@ -1,9 +1,5 @@
 package de.landsh.opendata.ckan;
 
-import de.landsh.opendata.ckan.ApiKey;
-import de.landsh.opendata.ckan.CkanAPI;
-import de.landsh.opendata.ckan.Resource;
-import de.landsh.opendata.ckan.RestClient;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -19,6 +15,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class CkanApiTest {
 
@@ -49,7 +49,7 @@ public class CkanApiTest {
         final JSONObject dataset = ckanAPI.readDataset("kindertagesstatten1");
         Assert.assertNotNull(dataset);
 
-        Assert.assertEquals(new URI("http://localhost/api/3/action/package_show?id=kindertagesstatten1"), argument.getValue().getURI());
+        assertEquals(new URI("http://localhost/api/3/action/package_show?id=kindertagesstatten1"), argument.getValue().getURI());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class CkanApiTest {
         Mockito.when(restClient.executeHttpRequest(argument.capture())).thenReturn(json);
 
         String result = ckanAPI.getCollection("kindertagesstatten1");
-        Assert.assertEquals("ed667223-6205-43f6-a2da-0acba4d53ddd", result);
+        assertEquals("ed667223-6205-43f6-a2da-0acba4d53ddd", result);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class CkanApiTest {
         Mockito.when(restClient.executeHttpRequest(argument.capture())).thenReturn(json);
 
         String result = ckanAPI.getCollection("badegewasser-infrastruktur1");
-        Assert.assertEquals("6f30a595-9210-4f24-8873-b52c72401468", result);
+        assertEquals("6f30a595-9210-4f24-8873-b52c72401468", result);
     }
 
     /**
@@ -84,9 +84,8 @@ public class CkanApiTest {
         final ArgumentCaptor<HttpUriRequest> argument = ArgumentCaptor.forClass(HttpUriRequest.class);
         Mockito.when(restClient.executeHttpRequest(argument.capture())).thenReturn(json);
 
-        Assert.assertNull( ckanAPI.getCollection("geschaftsverteilungsplan-melund-stand-15-07-2020"));
+        Assert.assertNull(ckanAPI.getCollection("geschaftsverteilungsplan-melund-stand-15-07-2020"));
     }
-
 
 
     @Test
@@ -97,7 +96,7 @@ public class CkanApiTest {
         Mockito.when(restClient.executeHttpRequest(argument.capture())).thenReturn(json);
 
         String result = ckanAPI.getOrganization("kindertagesstatten1");
-        Assert.assertEquals("f2d024c8-dbcc-4786-837e-d4eca1a23a57", result);
+        assertEquals("f2d024c8-dbcc-4786-837e-d4eca1a23a57", result);
     }
 
     @Test
@@ -108,7 +107,7 @@ public class CkanApiTest {
         Mockito.when(restClient.executeHttpRequest(argument.capture())).thenReturn(json);
 
         String result = ckanAPI.getAccessURL("kindertagesstatten1");
-        Assert.assertEquals("http://185.223.104.6/data/sozmin/kita_2019-09-18.csv", result);
+        assertEquals("http://185.223.104.6/data/sozmin/kita_2019-09-18.csv", result);
     }
 
     @Test
@@ -120,8 +119,8 @@ public class CkanApiTest {
         Mockito.when(restClient.executeRawHttpRequest(argument.capture())).thenReturn(mockResponse);
 
         String result = ckanAPI.findNewestDataset("mycollection");
-        Assert.assertEquals("mydata", result);
-        Assert.assertEquals(new URI("http://localhost/collection/mycollection/aktuell"), argument.getValue().getURI());
+        assertEquals("mydata", result);
+        assertEquals(new URI("http://localhost/collection/mycollection/aktuell"), argument.getValue().getURI());
     }
 
     @Test
@@ -130,12 +129,12 @@ public class CkanApiTest {
 
         final Resource result = ckanAPI.getResource(dataset, true);
         Assert.assertNotNull(result);
-        Assert.assertEquals("kita.csv", result.getName());
-        Assert.assertEquals("96948a3b-b1ca-407c-a33a-60a9ebc49c78", result.getId());
-        Assert.assertEquals("CSV", result.getFormat());
-        Assert.assertEquals("http://185.223.104.6/data/sozmin/kita_2019-09-18.csv", result.getAccessURL());
-        Assert.assertEquals(300618, result.getByteSize());
-        Assert.assertEquals("text/csv", result.getMimeType());
+        assertEquals("kita.csv", result.getName());
+        assertEquals("96948a3b-b1ca-407c-a33a-60a9ebc49c78", result.getId());
+        assertEquals("CSV", result.getFormat());
+        assertEquals("http://185.223.104.6/data/sozmin/kita_2019-09-18.csv", result.getAccessURL());
+        assertEquals(300618, result.getByteSize());
+        assertEquals("text/csv", result.getMimeType());
         Assert.assertNull(result.getChecksum());
     }
 
@@ -168,8 +167,8 @@ public class CkanApiTest {
             Assert.assertTrue(expected.getMessage().contains("mycollection"));
         }
 
-        Assert.assertEquals(new URI("http://localhost/api/3/action/package_show?id=mydataset"), argument.getAllValues().get(0).getURI());
-        Assert.assertEquals(new URI("http://localhost/api/3/action/package_show?id=mycollection"), argument.getAllValues().get(1).getURI());
+        assertEquals(new URI("http://localhost/api/3/action/package_show?id=mydataset"), argument.getAllValues().get(0).getURI());
+        assertEquals(new URI("http://localhost/api/3/action/package_show?id=mycollection"), argument.getAllValues().get(1).getURI());
     }
 
     @Test
@@ -184,7 +183,7 @@ public class CkanApiTest {
             Assert.assertTrue(expected.getMessage().contains("mydataset"));
         }
 
-        Assert.assertEquals(new URI("http://localhost/api/3/action/package_show?id=mydataset"), argument.getAllValues().get(0).getURI());
+        assertEquals(new URI("http://localhost/api/3/action/package_show?id=mydataset"), argument.getAllValues().get(0).getURI());
     }
 
     /**
@@ -205,8 +204,27 @@ public class CkanApiTest {
             Assert.assertTrue(expected.getMessage().contains("is no collection"));
         }
 
-        Assert.assertEquals(new URI("http://localhost/api/3/action/package_show?id=mydataset"), argument.getAllValues().get(0).getURI());
-        Assert.assertEquals(new URI("http://localhost/api/3/action/package_show?id=mycollection"), argument.getAllValues().get(1).getURI());
+        assertEquals(new URI("http://localhost/api/3/action/package_show?id=mydataset"), argument.getAllValues().get(0).getURI());
+        assertEquals(new URI("http://localhost/api/3/action/package_show?id=mycollection"), argument.getAllValues().get(1).getURI());
+    }
+
+    @Test
+    public void getResources() throws IOException {
+        final JSONObject json = new JSONObject(IOUtils.toString(getClass().getResourceAsStream("/package_show__testungen-in-der-schule-mit-einem-positiven-testergebnis.json"), StandardCharsets.UTF_8));
+        
+        // invoke method
+        final List<Resource> result = ckanAPI.getResources(json);
+
+        // check results
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        Resource resource = result.get(0);
+        assertEquals("9de8c47d-ada0-4446-bd28-b9ab1f5396f9",resource.getId());
+        assertEquals("https://opendata-stage.schleswig-holstein.de/dataset/f17419f7-d705-487b-9a96-00778c53ea65/resource/9de8c47d-ada0-4446-bd28-b9ab1f5396f9/download/data.csv",resource.getAccessURL());
+        assertEquals("6bea861d37b495bbb9ef7ad401ee6291",resource.getChecksum());
+        assertEquals("CSV",resource.getFormat());
+        assertEquals("data.csv",resource.getName());
+        assertEquals(772,resource.getByteSize());
     }
 
 }
