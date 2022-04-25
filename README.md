@@ -9,7 +9,7 @@ Ein Hilfsprogramm, mit dem man aus Java-Programmen heraus DCAT-AP.de konforme Me
 <dependency>
     <groupId>de.landsh.opendata</groupId>
     <artifactId>dcat-uploader</artifactId>
-    <version>1.0</version>
+    <version>1.1.1</version>
 </dependency>
 ```
 
